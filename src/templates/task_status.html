@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Status</title>
+</head>
+<body>
+    <h1>Task Status</h1>
+    <p><strong>Task ID:</strong> {{ task_id }}</p>
+    <p><strong>Status:</strong> {{ task_status }}</p>
+    <!-- Ссылки для действий -->
+    <p><a href="/get-status/{{ task_id }}">Refresh Status</a></p>
+    <p><a href="/">Return Back</a></p>
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!-- templates/task_form.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Manager</title>
+</head>
+<body>
+    <h1>👇 Create Your Task</h1>
+    <form action="{{ url_for('handle_form') }}" method="post">
+        <button type="submit">Create Task!</button>
+    </form>
+
+    <h2>Active Tasks</h2>
+    <ul>
+        {% for task in tasks %}
+            <li>
+                ID: {{ task.id }}
+                <form action="/get-status/{{ task.id }}" method="get">
+                    <button type="submit">Check Status</button>
+                </form>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <h2>Completed Tasks</h2>
+    <ul>
+        {% for task in completed_tasks %}
+            <li>
+                <p><strong>Task ID:</strong> {{ task[0] }}</p>
+                <p><strong>Status:</strong> {{ task[2] }}</p>
+                <p><strong>Result:</strong> {{ task[1] }}</p>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

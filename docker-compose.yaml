@@ -1,0 +1,63 @@
+version: '3.8'
+services:
+
+  tasks-app:
+    build:
+      context: .
+      dockerfile: docker/tasks-app/Dockerfile
+    ports:
+      - "8000:8000"
+    command: uvicorn src.main:app --host 0.0.0.0
+    volumes:
+      - .:/opt/app
+    env_file:
+      .env
+    depends_on:
+      - postgres_db
+      - redis
+      - celery-worker
+
+  tests:
+    build:
+      context: .
+      dockerfile: docker/tests/Dockerfile
+    ports:
+      - "8001:8000"
+    command: uvicorn src.main:app --host 0.0.0.0 --reload
+    volumes:
+      - .:/opt/app
+    env_file:
+      .env
+    depends_on:
+      - postgres_db
+      - redis
+      - celery-worker
+
+  celery-worker:
+    build:
+      context: .
+      dockerfile: docker/tests/Dockerfile
+    command: celery -A src.celery worker --loglevel=info
+    volumes:
+      - .:/opt/app
+    env_file:
+      .env
+
+
+  redis:
+    image: redis:7
+
+  postgres_db:
+    image: postgres:16.1
+    container_name: "postgres_db"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./init_db_script.sql:/docker-entrypoint-initdb.d/init_db_script.sql
+    ports:
+      - "15432:5432"
+    restart: always
+    env_file:
+      - .env
+
+volumes:
+  pgdata:
