@@ -3,7 +3,7 @@ run:
 	docker-compose up tasks-app
 
 install:
-	make install
+	poetry install
 
 test:
 	poetry run pytest tests
