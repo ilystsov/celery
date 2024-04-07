@@ -2,5 +2,8 @@ run:
 	cp -n .env.example .env || true
 	docker-compose up tasks-app
 
+install:
+	make install
+
 test:
-	pytest tests
+	poetry run pytest tests
